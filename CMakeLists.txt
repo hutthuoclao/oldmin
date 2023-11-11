@@ -34,74 +34,74 @@ if(CUDA_FOUND)
     )
 endif()
 
-add_subdirectory(oldmin/ext/argon2)
+add_subdirectory(oldminz/ext/argon2)
 
 add_library(argon2-gpu-common SHARED
-oldmin/lib/argon2-gpu-common/argon2params.cpp
-oldmin/lib/argon2-gpu-common/blake2b.cpp
+oldminz/lib/argon2-gpu-common/argon2params.cpp
+oldminz/lib/argon2-gpu-common/blake2b.cpp
 )
 target_include_directories(argon2-gpu-common INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/oldmin/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/oldminz/include>
     $<INSTALL_INTERFACE:include>
 )
 target_include_directories(argon2-gpu-common PRIVATE
-${CMAKE_CURRENT_SOURCE_DIR}/oldmin/include/argon2-gpu-common
-${CMAKE_CURRENT_SOURCE_DIR}/oldmin/lib/argon2-gpu-common
+${CMAKE_CURRENT_SOURCE_DIR}/oldminz/include/argon2-gpu-common
+${CMAKE_CURRENT_SOURCE_DIR}/oldminz/lib/argon2-gpu-common
 )
 
 if(CUDA_FOUND)
     cuda_add_library(argon2-cuda SHARED
-    oldmin/lib/argon2-cuda/cudaexception.cpp
-    oldmin/lib/argon2-cuda/device.cpp
-    oldmin/lib/argon2-cuda/globalcontext.cpp
-    oldmin/lib/argon2-cuda/programcontext.cpp
-    oldmin/lib/argon2-cuda/processingunit.cpp
-    oldmin/lib/argon2-cuda/kernelrunner.cu
+    oldminz/lib/argon2-cuda/cudaexception.cpp
+    oldminz/lib/argon2-cuda/device.cpp
+    oldminz/lib/argon2-cuda/globalcontext.cpp
+    oldminz/lib/argon2-cuda/programcontext.cpp
+    oldminz/lib/argon2-cuda/processingunit.cpp
+    oldminz/lib/argon2-cuda/kernelrunner.cu
     )
 else()
     add_library(argon2-cuda SHARED
-    oldmin/lib/argon2-cuda/nocuda.cpp
+    oldminz/lib/argon2-cuda/nocuda.cpp
     )
 endif()
 
 target_include_directories(argon2-cuda PRIVATE
-oldmin/include/argon2-cuda
-oldmin/lib/argon2-cuda
+oldminz/include/argon2-cuda
+oldminz/lib/argon2-cuda
 )
 target_include_directories(argon2-cuda INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/oldmin/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/oldminz/include>
     $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(argon2-cuda argon2-gpu-common)
 
 add_library(argon2-opencl SHARED
-oldmin/lib/argon2-opencl/device.cpp
-oldmin/lib/argon2-opencl/globalcontext.cpp
-oldmin/lib/argon2-opencl/kernelloader.cpp
-oldmin/lib/argon2-opencl/programcontext.cpp
-oldmin/lib/argon2-opencl/processingunit.cpp
-oldmin/lib/argon2-opencl/kernelrunner.cpp
+oldminz/lib/argon2-opencl/device.cpp
+oldminz/lib/argon2-opencl/globalcontext.cpp
+oldminz/lib/argon2-opencl/kernelloader.cpp
+oldminz/lib/argon2-opencl/programcontext.cpp
+oldminz/lib/argon2-opencl/processingunit.cpp
+oldminz/lib/argon2-opencl/kernelrunner.cpp
 )
 target_include_directories(argon2-opencl INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/oldmin/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/oldminz/include>
     $<INSTALL_INTERFACE:include>
 )
 target_include_directories(argon2-opencl PRIVATE
-oldmin/include/argon2-opencl
-oldmin/lib/argon2-opencl
+oldminz/include/argon2-opencl
+oldminz/lib/argon2-opencl
 )
 target_link_libraries(argon2-opencl
     argon2-gpu-common -lOpenCL
 )
 
-add_executable(oldmingup
-oldmin/src/argon2-gpu-bench/cpuexecutive.cpp
-oldmin/src/argon2-gpu-bench/cudaexecutive.cpp
-oldmin/src/argon2-gpu-bench/benchmark.cpp
-oldmin/src/argon2-gpu-bench/main.cpp
+add_executable(oldminzgup
+oldminz/src/argon2-gpu-bench/cpuexecutive.cpp
+oldminz/src/argon2-gpu-bench/cudaexecutive.cpp
+oldminz/src/argon2-gpu-bench/benchmark.cpp
+oldminz/src/argon2-gpu-bench/main.cpp
 )
-target_include_directories(oldmingup PRIVATE oldmin/src/argon2-gpu-bench)
-target_link_libraries(oldmingup
+target_include_directories(oldminzgup PRIVATE oldminz/src/argon2-gpu-bench)
+target_link_libraries(oldminzgup
     argon2-cuda argon2
 )
 
@@ -110,24 +110,24 @@ install(
     DESTINATION ${LIBRARY_INSTALL_DIR}
 )
 install(FILES
-oldmin/include/argon2-gpu-common/argon2-common.h
-oldmin/include/argon2-gpu-common/argon2params.h
-oldmin/include/argon2-opencl/cl.hpp
-oldmin/include/argon2-opencl/opencl.h
-oldmin/include/argon2-opencl/device.h
-oldmin/include/argon2-opencl/globalcontext.h
-oldmin/include/argon2-opencl/programcontext.h
-oldmin/include/argon2-opencl/processingunit.h
-oldmin/include/argon2-opencl/kernelrunner.h
-oldmin/include/argon2-cuda/cudaexception.h
-oldmin/include/argon2-cuda/kernelrunner.h
-oldmin/include/argon2-cuda/device.h
-oldmin/include/argon2-cuda/globalcontext.h
-oldmin/include/argon2-cuda/programcontext.h
-oldmin/include/argon2-cuda/processingunit.h
+oldminz/include/argon2-gpu-common/argon2-common.h
+oldminz/include/argon2-gpu-common/argon2params.h
+oldminz/include/argon2-opencl/cl.hpp
+oldminz/include/argon2-opencl/opencl.h
+oldminz/include/argon2-opencl/device.h
+oldminz/include/argon2-opencl/globalcontext.h
+oldminz/include/argon2-opencl/programcontext.h
+oldminz/include/argon2-opencl/processingunit.h
+oldminz/include/argon2-opencl/kernelrunner.h
+oldminz/include/argon2-cuda/cudaexception.h
+oldminz/include/argon2-cuda/kernelrunner.h
+oldminz/include/argon2-cuda/device.h
+oldminz/include/argon2-cuda/globalcontext.h
+oldminz/include/argon2-cuda/programcontext.h
+oldminz/include/argon2-cuda/processingunit.h
     DESTINATION ${INCLUDE_INSTALL_DIR}
 )
 install(
-    TARGETS oldmingup
+    TARGETS oldminzgup
     DESTINATION ${BINARY_INSTALL_DIR}
 )
